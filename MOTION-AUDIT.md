@@ -44,3 +44,9 @@ Alternatively, set `CHROME_PATH` to an installed Chrome executable. Set `SCREENS
 ## Deployment
 
 Deploy `index.html`, `styles.css` and `motion.js` together with the unchanged `assets/` directory. The HTML and JavaScript changes depend on each other. A GitHub push does not by itself confirm a successful Cloudflare deployment; production deployment was not verified as part of this audit.
+
+Cloudflare Workers uses the checked-in `wrangler.jsonc`. Keep the root directory as `/`, leave the build command empty, and use `npx wrangler deploy` as the deploy command. `.assetsignore` allows only the three site files and `assets/`; dependencies, tests, Git metadata and configuration are not public assets. If another public root file is added later, explicitly allow it in `.assetsignore`.
+
+The first deployment of the motion fix failed because Wrangler auto-configured the entire repository as its assets directory, including a 145 MiB `node_modules/workerd/bin/workerd` file. The explicit configuration avoids auto-setup, and the asset allowlist prevents development files from being uploaded.
+
+Deployment-fix verification: all 30 browser/syntax tests passed again. Wrangler 4.127.0's own asset-manifest builder selected exactly the eight public files. A synthetic 145 MiB dependency reproduced the reported size error without `.assetsignore` and passed with it; synthetic private files and metadata were also excluded. A full local `wrangler deploy --dry-run` remained blocked by Windows compiler file-access restrictions, so a successful Cloudflare deployment still needs confirmation.

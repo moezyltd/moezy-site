@@ -1,0 +1,7 @@
+# Only public website files may be uploaded. Keep dependencies, tests,
+# documentation, configuration, and any future root files private.
+/*
+!/index.html
+!/styles.css
+!/motion.js
+!/assets/
