@@ -1,0 +1,12 @@
+{
+  "name": "moezy-site",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/motion.test.cjs"
+  },
+  "engines": { "node": ">=20" },
+  "devDependencies": {
+    "playwright": "1.62.1",
+    "postcss": "8.5.26"
+  }
+}
